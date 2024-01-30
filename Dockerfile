@@ -75,10 +75,6 @@ RUN apt-get update && \
     unzip && \
     rm -rf /var/lib/apt/lists/*
 
-# FIXME: below is a workaround, as the path is ignored
-RUN mv /usr/lib/chromium-browser/chromium-browser /usr/lib/chromium-browser/chromium-browser-original \
-  && ln -sfv /opt/robotframework/bin/chromium-browser /usr/lib/chromium-browser/chromium-browser
-
 # Install ChromeDriver
 RUN CHROMEDRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE) && \
     wget -q "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" && \
@@ -119,30 +115,28 @@ RUN apt-get install -y \
   && tar xzf geckodriver-$GECKO_DRIVER_VERSION-linux64.tar.gz \
   && mkdir -p /opt/robotframework/drivers/ \
   && mv geckodriver /opt/robotframework/drivers/geckodriver \
-  && rm geckodriver-$GECKO_DRIVER_VERSION-linux64.tar.gz \
-  && rm -rf /var/lib/apt/lists/*
+  && rm geckodriver-$GECKO_DRIVER_VERSION-linux64.tar.gz
 
 # Install Microsoft Edge & webdriver
-RUN wget -q "https://packages.microsoft.com/keys/microsoft.asc" -O- | apt-key add - \
-  && echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge.list \
+RUN wget -q "https://packages.microsoft.com/keys/microsoft.asc" -O- | apt-key add - && \
+    echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" | tee /etc/apt/sources.list.d/microsoft-edge.list \
   && apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    microsoft-edge-stable=${MICROSOFT_EDGE_VERSION}-1 \
+    apt-get install -y \
+    microsoft-edge-stable-${MICROSOFT_EDGE_VERSION} \
     wget \
     zip && \
-    wget -q "https://msedgedriver.azureedge.net/${MICROSOFT_EDGE_VERSION}/edgedriver_linux64.zip" \
-    && unzip edgedriver_linux64.zip -d edge \
-    && mv edge/msedgedriver /opt/robotframework/drivers/msedgedriver \
-    && rm -Rf edgedriver_linux64.zip edge/ && \
-    # IMPORTANT: don't remove the wget package because it's a dependency of Microsoft Edge
+    wget -q "https://msedgedriver.azureedge.net/${MICROSOFT_EDGE_VERSION}/edgedriver_linux64.zip" && \
+    unzip edgedriver_linux64.zip -d edge && \
+    mv edge/msedgedriver /opt/robotframework/drivers/msedgedriver && \
+    rm -Rf edgedriver_linux64.zip edge/ && \
     apt-get remove -y \
-    zip \
-  && apt-get autoremove -y \
-  && rm -rf /var/lib/apt/lists/*
+    zip && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/*
 
 ENV PATH=/opt/microsoft/msedge:$PATH
 
-# FIXME: Playright currently doesn't support relying on system browsers, which is why the `--skip-browsers` parameter cannot be used here.
+# FIXME: Playwright currently doesn't support relying on system browsers, which is why the `--skip-browsers` parameter cannot be used here.
 RUN rfbrowser init
 
 # Create the default report and work folders with the default user to avoid runtime issues
