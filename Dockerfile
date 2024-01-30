@@ -78,8 +78,10 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
   
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-    && dpkg -i google-chrome-stable_current_amd64.deb \
+    && apt -f install google-chrome-stable_current_amd64.deb \
     && rm google-chrome-stable_current_amd64.deb
+
+RUN apt-get install -f
 
 # FIXME: below is a workaround, as the path is ignored
 RUN mv /usr/bin/google-chrome /usr/bin/google-chrome-original \
