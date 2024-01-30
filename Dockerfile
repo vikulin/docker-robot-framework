@@ -1,6 +1,6 @@
-FROM fedora:38
+FROM ubuntu:22.04
 
-MAINTAINER Paul Podgorsek <ppodgorsek@users.noreply.github.com>
+MAINTAINER Vadym Vikulin <vadym.vikulin@rivchain.org>
 LABEL description Robot Framework in Docker.
 
 # Set the reports directory environment variable
@@ -58,25 +58,27 @@ COPY bin/chromium-browser.sh /opt/robotframework/bin/chromium-browser
 COPY bin/run-tests-in-virtual-screen.sh /opt/robotframework/bin/
 
 # Install system dependencies
-RUN dnf upgrade -y --refresh \
-  && dnf install -y \
-    chromedriver-${CHROMIUM_VERSION}* \
-    chromium-${CHROMIUM_VERSION}* \
-    firefox-${FIREFOX_VERSION}* \
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    chromedriver \
+    chromium-browser \
+    firefox \
     gcc \
-    gcc-c++ \
+    g++ \
     npm \
     nodejs \
     python3-pip \
-    python3-pyyaml \
+    python3-yaml \
     tzdata \
-    xorg-x11-server-Xvfb-${XVFB_VERSION}* \
-    dnf-plugins-core \
-  && dnf clean all
+    xvfb \
+    dirmngr \
+    wget \
+    unzip && \
+    rm -rf /var/lib/apt/lists/*
 
 # FIXME: below is a workaround, as the path is ignored
-RUN mv /usr/lib64/chromium-browser/chromium-browser /usr/lib64/chromium-browser/chromium-browser-original \
-  && ln -sfv /opt/robotframework/bin/chromium-browser /usr/lib64/chromium-browser/chromium-browser
+RUN mv /usr/lib/chromium-browser/chromium-browser /usr/lib/chromium-browser/chromium-browser-original \
+  && ln -sfv /opt/robotframework/bin/chromium-browser /usr/lib/chromium-browser/chromium-browser
 
 # Install Robot Framework and associated libraries
 RUN pip3 install \
@@ -102,7 +104,7 @@ RUN pip3 install \
   selenium==4.9.0
 
 # Gecko drivers
-RUN dnf install -y \
+RUN apt-get install -y \
     wget \
 
   # Download Gecko drivers directly from the GitHub repository
@@ -111,28 +113,25 @@ RUN dnf install -y \
   && mkdir -p /opt/robotframework/drivers/ \
   && mv geckodriver /opt/robotframework/drivers/geckodriver \
   && rm geckodriver-$GECKO_DRIVER_VERSION-linux64.tar.gz \
-
-  && dnf remove -y \
-    wget \
-  && dnf clean all
+  && rm -rf /var/lib/apt/lists/*
 
 # Install Microsoft Edge & webdriver
-RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc \
-  && dnf config-manager --add-repo https://packages.microsoft.com/yumrepos/edge \
-  && dnf install -y \
-    microsoft-edge-stable-${MICROSOFT_EDGE_VERSION} \
+RUN wget -q "https://packages.microsoft.com/keys/microsoft.asc" -O- | apt-key add - \
+  && echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge.list \
+  && apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    microsoft-edge-stable=${MICROSOFT_EDGE_VERSION}-1 \
     wget \
+    zip && \
+    wget -q "https://msedgedriver.azureedge.net/${MICROSOFT_EDGE_VERSION}/edgedriver_linux64.zip" \
+    && unzip edgedriver_linux64.zip -d edge \
+    && mv edge/msedgedriver /opt/robotframework/drivers/msedgedriver \
+    && rm -Rf edgedriver_linux64.zip edge/ && \
+    # IMPORTANT: don't remove the wget package because it's a dependency of Microsoft Edge
+    apt-get remove -y \
     zip \
-
-  && wget -q "https://msedgedriver.azureedge.net/${MICROSOFT_EDGE_VERSION}/edgedriver_linux64.zip" \
-  && unzip edgedriver_linux64.zip -d edge \
-  && mv edge/msedgedriver /opt/robotframework/drivers/msedgedriver \
-  && rm -Rf edgedriver_linux64.zip edge/ \
-
-  # IMPORTANT: don't remove the wget package because it's a dependency of Microsoft Edge
-  && dnf remove -y \
-    zip \
-  && dnf clean all
+  && apt-get autoremove -y \
+  && rm -rf /var/lib/apt/lists/*
 
 ENV PATH=/opt/microsoft/msedge:$PATH
 
