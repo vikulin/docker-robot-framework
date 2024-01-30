@@ -74,6 +74,8 @@ RUN apt-get update && \
     wget \
     unzip \
     curl && \
+    # Install latest NodeJS
+    npm install -g n && n lts && \
     rm -rf /var/lib/apt/lists/*
 
 # Install ChromeDriver
