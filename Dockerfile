@@ -123,7 +123,7 @@ RUN wget -q "https://packages.microsoft.com/keys/microsoft.asc" -O- | apt-key ad
     echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" | tee /etc/apt/sources.list.d/microsoft-edge.list \
   && apt-get update && \
     apt-get install -y \
-    microsoft-edge-stable-${MICROSOFT_EDGE_VERSION} \
+    microsoft-edge-stable=${MICROSOFT_EDGE_VERSION}-1 \
     wget \
 zip && \
     wget -q "https://msedgedriver.azureedge.net/${MICROSOFT_EDGE_VERSION}/edgedriver_linux64.zip" && \
