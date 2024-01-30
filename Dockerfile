@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM --platform=linux/amd64 ubuntu:22.04
 
 MAINTAINER Vadym Vikulin <vadym.vikulin@rivchain.org>
 LABEL description Robot Framework in Docker.
@@ -56,6 +56,8 @@ ENV AWS_UPLOAD_TO_S3 false
 COPY bin/chromedriver.sh /opt/robotframework/bin/chromedriver
 COPY bin/google-chrome.sh /opt/robotframework/bin/google-chrome
 COPY bin/run-tests-in-virtual-screen.sh /opt/robotframework/bin/
+
+RUN sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/chrome-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list'
 
 # Install system dependencies
 RUN apt-get update && \
