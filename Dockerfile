@@ -57,12 +57,9 @@ COPY bin/chromedriver.sh /opt/robotframework/bin/chromedriver
 COPY bin/google-chrome.sh /opt/robotframework/bin/google-chrome
 COPY bin/run-tests-in-virtual-screen.sh /opt/robotframework/bin/
 
-RUN sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/chrome-keyring.gpg trusted=yes] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list'
-
 # Install system dependencies
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    google-chrome-stable \
     firefox \
     gcc \
     g++ \
@@ -79,6 +76,10 @@ RUN apt-get update && \
     # Install latest NodeJS
     npm install -g n && n lts && \
     rm -rf /var/lib/apt/lists/*
+  
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+    && dpkg -i google-chrome-stable_current_amd64.deb \
+    && rm google-chrome-stable_current_amd64.deb
 
 # FIXME: below is a workaround, as the path is ignored
 RUN mv /usr/bin/google-chrome /usr/bin/google-chrome-original \
