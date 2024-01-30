@@ -78,8 +78,9 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
   
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-    && apt -f install google-chrome-stable_current_amd64.deb \
-    && rm google-chrome-stable_current_amd64.deb
+    && dpkg -i google-chrome-stable_current_amd64.deb \
+    # Ignore deps issues here
+    && rm google-chrome-stable_current_amd64.deb || true
 
 RUN apt-get install -f
 
