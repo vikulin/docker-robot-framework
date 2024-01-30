@@ -57,7 +57,7 @@ COPY bin/chromedriver.sh /opt/robotframework/bin/chromedriver
 COPY bin/google-chrome.sh /opt/robotframework/bin/google-chrome
 COPY bin/run-tests-in-virtual-screen.sh /opt/robotframework/bin/
 
-RUN sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/chrome-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list'
+RUN sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/chrome-keyring.gpg trusted=yes] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list'
 
 # Install system dependencies
 RUN apt-get update && \
