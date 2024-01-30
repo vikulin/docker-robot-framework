@@ -60,6 +60,7 @@ COPY bin/run-tests-in-virtual-screen.sh /opt/robotframework/bin/
 # Install system dependencies
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    fonts-liberation \
     firefox \
     gcc \
     g++ \
