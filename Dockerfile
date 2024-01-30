@@ -61,6 +61,12 @@ COPY bin/run-tests-in-virtual-screen.sh /opt/robotframework/bin/
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
     fonts-liberation \
+    libasound2 \
+    libgbm1 \
+    libnspr4 \
+    libnss3 \
+    libu2f-udev \
+    libvulkan1 \
     firefox \
     gcc \
     g++ \
