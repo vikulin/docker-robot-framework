@@ -60,7 +60,6 @@ COPY bin/run-tests-in-virtual-screen.sh /opt/robotframework/bin/
 # Install system dependencies
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    chromedriver \
     chromium-browser \
     firefox \
     gcc \
@@ -79,6 +78,14 @@ RUN apt-get update && \
 # FIXME: below is a workaround, as the path is ignored
 RUN mv /usr/lib/chromium-browser/chromium-browser /usr/lib/chromium-browser/chromium-browser-original \
   && ln -sfv /opt/robotframework/bin/chromium-browser /usr/lib/chromium-browser/chromium-browser
+
+# Install ChromeDriver
+RUN CHROMEDRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE) && \
+    wget -q "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" && \
+    unzip chromedriver_linux64.zip && \
+    mv chromedriver /usr/local/bin/chromedriver && \
+    chmod +x /usr/local/bin/chromedriver && \
+    rm chromedriver_linux64.zip
 
 # Install Robot Framework and associated libraries
 RUN pip3 install \
