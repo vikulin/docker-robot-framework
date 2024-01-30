@@ -54,13 +54,13 @@ ENV AWS_UPLOAD_TO_S3 false
 
 # Prepare binaries to be executed
 COPY bin/chromedriver.sh /opt/robotframework/bin/chromedriver
-COPY bin/chromium-browser.sh /opt/robotframework/bin/chromium-browser
+COPY bin/google-chrome.sh /opt/robotframework/bin/google-chrome
 COPY bin/run-tests-in-virtual-screen.sh /opt/robotframework/bin/
 
 # Install system dependencies
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    chromium-browser \
+    google-chrome-stable \
     firefox \
     gcc \
     g++ \
@@ -79,8 +79,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # FIXME: below is a workaround, as the path is ignored
-RUN mv /usr/bin/chromium-browser /usr/bin/chromium-browser-original \
-  && ln -sfv /opt/robotframework/bin/chromium-browser /usr/bin/chromium-browser
+RUN mv /usr/bin/google-chrome /usr/bin/google-chrome-original \
+  && ln -sfv /opt/robotframework/bin/google-chrome /usr/bin/google-chrome
 
 # Install ChromeDriver
 RUN CHROMEDRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE) && \
