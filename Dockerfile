@@ -77,16 +77,8 @@ RUN apt-get update && \
     npm install -g n && n lts && \
     rm -rf /var/lib/apt/lists/*
   
-RUN apt-get install -y \
-    fonts-liberation \
-    libasound2 \
-    libgbm1 \
-    libnspr4 \
-    libnss3 \
-    libu2f-udev \
-    libvulkan1 \
-    && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-    && dpkg -i google-chrome-stable_current_amd64.deb \
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+    && apt install -y ./google-chrome-stable_current_amd64.deb \
     && rm google-chrome-stable_current_amd64.deb
 
 # FIXME: below is a workaround, as the path is ignored
