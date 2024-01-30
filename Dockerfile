@@ -72,7 +72,8 @@ RUN apt-get update && \
     xvfb \
     dirmngr \
     wget \
-    unzip && \
+    unzip \
+    curl && \
     rm -rf /var/lib/apt/lists/*
 
 # Install ChromeDriver
@@ -131,8 +132,7 @@ RUN wget -q "https://packages.microsoft.com/keys/microsoft.asc" -O- | apt-key ad
     rm -Rf edgedriver_linux64.zip edge/ && \
     apt-get remove -y \
     zip && \
-    apt-get autoremove -y && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get autoremove -y
 
 ENV PATH=/opt/microsoft/msedge:$PATH
 
