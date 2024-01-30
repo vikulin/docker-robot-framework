@@ -113,6 +113,9 @@ RUN pip3 install \
   # https://github.com/robotframework/SeleniumLibrary/issues/1835
   selenium==4.9.0
 
+# Playwright deps
+RUN npx playwright install-deps
+
 # Gecko drivers
 RUN apt-get install -y \
     wget \
