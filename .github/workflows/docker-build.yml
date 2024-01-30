@@ -32,7 +32,7 @@ jobs:
       BROWSER: ${{ matrix.browser }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Build image
         run:
           podman build . --tag $IMAGE_NAME --file Dockerfile
