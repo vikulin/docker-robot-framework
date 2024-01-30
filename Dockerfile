@@ -78,6 +78,10 @@ RUN apt-get update && \
     npm install -g n && n lts && \
     rm -rf /var/lib/apt/lists/*
 
+# FIXME: below is a workaround, as the path is ignored
+RUN mv /usr/bin/chromium-browser /usr/bin/chromium-browser-original \
+  && ln -sfv /opt/robotframework/bin/chromium-browser /usr/bin/chromium-browser
+
 # Install ChromeDriver
 RUN CHROMEDRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE) && \
     wget -q "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" && \
