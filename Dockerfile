@@ -36,7 +36,7 @@ ENV CHROMIUM_VERSION 117.0
 ENV DATABASE_LIBRARY_VERSION 1.2.4
 ENV DATADRIVER_VERSION 1.8.1
 ENV DATETIMETZ_VERSION 1.0.6
-ENV MICROSOFT_EDGE_VERSION 116.0.1938.69
+ENV MICROSOFT_EDGE_VERSION 121.0.2277.83
 ENV FAKER_VERSION 5.0.0
 ENV FIREFOX_VERSION 117.0
 ENV FTP_LIBRARY_VERSION 1.9
@@ -125,7 +125,7 @@ RUN wget -q "https://packages.microsoft.com/keys/microsoft.asc" -O- | apt-key ad
     apt-get install -y \
     microsoft-edge-stable-${MICROSOFT_EDGE_VERSION} \
     wget \
-    zip && \
+zip && \
     wget -q "https://msedgedriver.azureedge.net/${MICROSOFT_EDGE_VERSION}/edgedriver_linux64.zip" && \
     unzip edgedriver_linux64.zip -d edge && \
     mv edge/msedgedriver /opt/robotframework/drivers/msedgedriver && \
