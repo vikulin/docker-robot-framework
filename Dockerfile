@@ -151,6 +151,7 @@ RUN wget -q "https://packages.microsoft.com/keys/microsoft.asc" -O- | apt-key ad
 zip && \
     wget -q "https://msedgedriver.azureedge.net/${MICROSOFT_EDGE_VERSION}/edgedriver_linux64.zip" && \
     unzip edgedriver_linux64.zip -d edge && \
+    mkdir -p /opt/robotframework/drivers && \
     mv edge/msedgedriver /opt/robotframework/drivers/msedgedriver && \
     rm -Rf edgedriver_linux64.zip edge/ && \
     apt-get remove -y \
