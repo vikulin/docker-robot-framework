@@ -111,7 +111,7 @@ RUN wget "https://launchpad.net/~ubuntu-mozilla-security/+archive/ubuntu/ppa/+bu
 # Install ChromeDriver
 RUN wget -q "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${GOOGLE_CHROME_VERSION}/linux64/chromedriver-linux64.zip" && \
     unzip chromedriver-linux64.zip && \
-    mv chromedriver /usr/bin/chromedriver && \
+    mv chromedriver-linux64/chromedriver /usr/bin/chromedriver && \
     chmod +x /usr/bin/chromedriver && \
     rm chromedriver-linux64.zip
 
