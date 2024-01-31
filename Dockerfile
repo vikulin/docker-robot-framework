@@ -57,6 +57,10 @@ ENV DISPLAY :0
 # Prepare binaries to be executed
 COPY bin/run-tests-in-virtual-screen.sh /opt/robotframework/bin/
 
+# Disable ipv6
+RUN sysctl -w net.ipv6.conf.all.disable_ipv6=1 \
+    && sysctl -w net.ipv6.conf.default.disable_ipv6=1
+
 # Install system dependencies
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
