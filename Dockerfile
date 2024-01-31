@@ -32,7 +32,7 @@ ENV ROBOT_GID 1000
 ENV AWS_CLI_VERSION 1.32.31
 ENV AXE_SELENIUM_LIBRARY_VERSION 2.1.6
 ENV BROWSER_LIBRARY_VERSION 18.0.0
-ENV GOOGLE_CHROME_VERSION 114.0.5735.90
+ENV GOOGLE_CHROME_VERSION 121.0.6167.85
 ENV FIREFOX_VERSION 120.0.1+build1-0ubuntu0.20.04
 ENV DATABASE_LIBRARY_VERSION 1.4.3
 ENV DATADRIVER_VERSION 1.10.0
@@ -109,11 +109,11 @@ RUN wget "https://launchpad.net/~ubuntu-mozilla-security/+archive/ubuntu/ppa/+bu
     && rm "firefox-geckodriver_${FIREFOX_VERSION}.1_amd64.deb"
 
 # Install ChromeDriver
-RUN wget -q "https://chromedriver.storage.googleapis.com/${GOOGLE_CHROME_VERSION}/chromedriver_linux64.zip" && \
-    unzip chromedriver_linux64.zip && \
+RUN wget -q "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${GOOGLE_CHROME_VERSION}/linux64/chromedriver-linux64.zip" && \
+    unzip chromedriver-linux64.zip && \
     mv chromedriver /usr/bin/chromedriver && \
     chmod +x /usr/bin/chromedriver && \
-    rm chromedriver_linux64.zip
+    rm chromedriver-linux64.zip
 
 # Install Robot Framework and associated libraries
 RUN pip3 install \
