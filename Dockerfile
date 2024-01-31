@@ -63,6 +63,7 @@ COPY bin/run-tests-in-virtual-screen.sh /opt/robotframework/bin/
 # Install system dependencies
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    # Chrome deps
     fonts-liberation \
     libasound2 \
     libgbm1 \
@@ -70,12 +71,15 @@ RUN apt-get update && \
     libnss3 \
     libu2f-udev \
     libvulkan1 \
+    # Chrome deps
+    #FF deps
     lsb-release \
     libgdk-pixbuf2.0-0 \
     xul-ext-ubufox \
     libcanberra0 \
     libdbusmenu-glib4 \
     libdbusmenu-gtk3-4 \
+    #FF deps
     gcc \
     g++ \
     npm \
