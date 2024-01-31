@@ -55,8 +55,6 @@ ENV AWS_UPLOAD_TO_S3 false
 ENV DISPLAY :0
 
 # Prepare binaries to be executed
-COPY bin/chromedriver.sh /opt/robotframework/bin/chromedriver
-COPY bin/google-chrome.sh /opt/robotframework/bin/google-chrome
 COPY bin/run-tests-in-virtual-screen.sh /opt/robotframework/bin/
 
 # Install system dependencies
@@ -105,11 +103,6 @@ RUN wget "https://launchpad.net/~ubuntu-mozilla-security/+archive/ubuntu/ppa/+bu
     && apt install -y ./"firefox-geckodriver_${FIREFOX_VERSION}.1_amd64.deb" \
     && rm "firefox_${FIREFOX_VERSION}.1_amd64.deb" \
     && rm "firefox-geckodriver_${FIREFOX_VERSION}.1_amd64.deb"
-
-
-# FIXME: below is a workaround, as the path is ignored
-#RUN mv /usr/bin/google-chrome /usr/bin/google-chrome-original \
-# && ln -sfv /opt/robotframework/bin/google-chrome /usr/bin/google-chrome
 
 # Install ChromeDriver
 RUN wget -q "https://chromedriver.storage.googleapis.com/${GOOGLE_CHROME_VERSION}/chromedriver_linux64.zip" && \
