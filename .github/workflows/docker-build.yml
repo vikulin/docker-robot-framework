@@ -27,7 +27,7 @@ jobs:
       matrix:
         include:
           - browser: "chrome"
-          - browser: "firefox"
+          #- browser: "firefox"
     env:
       BROWSER: ${{ matrix.browser }}
     steps:
