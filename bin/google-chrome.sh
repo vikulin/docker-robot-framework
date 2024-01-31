@@ -1,3 +1,3 @@
 #!/bin/sh
 
-exec /usr/bin/google-chrome-original --disable-gpu --remote-debugging-port=9222 --no-sandbox --disable-dev-shm-usage "$@"
+exec /usr/bin/google-chrome-original --headless=new --no-sandbox --disable-gpu --single-process --disable-dev-shm-usage --disable-dev-tools --no-zygote --remote-debugging-port=9222 "$@"
