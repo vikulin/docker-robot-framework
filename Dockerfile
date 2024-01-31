@@ -32,9 +32,8 @@ ENV ROBOT_GID 1000
 ENV AWS_CLI_VERSION 1.29.40
 ENV AXE_SELENIUM_LIBRARY_VERSION 2.1.6
 ENV BROWSER_LIBRARY_VERSION 18.0.0
-ENV GOOGLE_CHROME_VERSION 112.0.5615.49
+ENV GOOGLE_CHROME_VERSION 110.0.5481.77
 ENV FIREFOX_VERSION 120.0.1+build1-0ubuntu0.20.04
-ENV CHROMEDRIVER_VERSION 112.0.5615.49
 ENV DATABASE_LIBRARY_VERSION 1.4.3
 ENV DATADRIVER_VERSION 1.10.0
 ENV DATETIMETZ_VERSION 1.0.6
@@ -113,7 +112,7 @@ RUN mv /usr/bin/google-chrome /usr/bin/google-chrome-original \
   && ln -sfv /opt/robotframework/bin/google-chrome /usr/bin/google-chrome
 
 # Install ChromeDriver
-RUN wget -q "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip" && \
+RUN wget -q "https://chromedriver.storage.googleapis.com/${GOOGLE_CHROME_VERSION}/chromedriver_linux64.zip" && \
     unzip chromedriver_linux64.zip && \
     mv chromedriver /usr/local/bin/chromedriver && \
     chmod +x /usr/local/bin/chromedriver && \
