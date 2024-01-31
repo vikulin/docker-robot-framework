@@ -86,12 +86,12 @@ RUN apt-get update && \
     npm install -g n && n lts && \
     rm -rf /var/lib/apt/lists/*
   
-RUN wget "https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_$GOOGLE_CHROME_VERSION-1_amd64.deb" \
-    && apt install -y ./"google-chrome-stable_$GOOGLE_CHROME_VERSION-1_amd64.deb" \
-    && rm "google-chrome-stable_$GOOGLE_CHROME_VERSION-1_amd64.deb"
+RUN wget "https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${GOOGLE_CHROME_VERSION}-1_amd64.deb" \
+    && apt install -y ./"google-chrome-stable_${GOOGLE_CHROME_VERSION}-1_amd64.deb" \
+    && rm "google-chrome-stable_${GOOGLE_CHROME_VERSION}-1_amd64.deb"
 
 RUN wget "https://launchpad.net/~ubuntu-mozilla-security/+archive/ubuntu/ppa/+build/27033836/+files/firefox_${FIREFOX_VERSION}.1_amd64.deb" \
-    wget "https://launchpad.net/~ubuntu-mozilla-security/+archive/ubuntu/ppa/+build/27033836/+files/firefox-geckodriver_${FIREFOX_VERSION}.1_amd64.deb" \
+    && wget "https://launchpad.net/~ubuntu-mozilla-security/+archive/ubuntu/ppa/+build/27033836/+files/firefox-geckodriver_${FIREFOX_VERSION}.1_amd64.deb" \
     && apt install -y ./"firefox_${FIREFOX_VERSION}.1_amd64.deb" \
     && apt install -y ./"firefox-geckodriver_${FIREFOX_VERSION}.1_amd64.deb" \
     && rm "firefox_${FIREFOX_VERSION}.1_amd64.deb" \
@@ -103,7 +103,7 @@ RUN mv /usr/bin/google-chrome /usr/bin/google-chrome-original \
   && ln -sfv /opt/robotframework/bin/google-chrome /usr/bin/google-chrome
 
 # Install ChromeDriver
-RUN wget -q "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" && \
+RUN wget -q "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip" && \
     unzip chromedriver_linux64.zip && \
     mv chromedriver /usr/local/bin/chromedriver && \
     chmod +x /usr/local/bin/chromedriver && \
