@@ -70,6 +70,12 @@ RUN apt-get update && \
     libnss3 \
     libu2f-udev \
     libvulkan1 \
+    lsb-release \
+    libgdk-pixbuf2.0-0 \
+    xul-ext-ubufox \
+    libcanberra0 \
+    libdbusmenu-glib4 \
+    libdbusmenu-gtk3-4 \
     gcc \
     g++ \
     npm \
