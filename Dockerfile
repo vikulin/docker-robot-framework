@@ -108,8 +108,8 @@ RUN wget "https://launchpad.net/~ubuntu-mozilla-security/+archive/ubuntu/ppa/+bu
 
 
 # FIXME: below is a workaround, as the path is ignored
-RUN mv /usr/bin/google-chrome /usr/bin/google-chrome-original \
-  && ln -sfv /opt/robotframework/bin/google-chrome /usr/bin/google-chrome
+#RUN mv /usr/bin/google-chrome /usr/bin/google-chrome-original \
+# && ln -sfv /opt/robotframework/bin/google-chrome /usr/bin/google-chrome
 
 # Install ChromeDriver
 RUN wget -q "https://chromedriver.storage.googleapis.com/${GOOGLE_CHROME_VERSION}/chromedriver_linux64.zip" && \
