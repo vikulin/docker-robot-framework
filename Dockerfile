@@ -33,13 +33,13 @@ ENV AWS_CLI_VERSION 1.29.40
 ENV AXE_SELENIUM_LIBRARY_VERSION 2.1.6
 ENV BROWSER_LIBRARY_VERSION 18.0.0
 ENV GOOGLE_CHROME_VERSION 114.0.5735.198
+ENV FIREFOX_VERSION 120.0.1+build1-0ubuntu0.20.04
 ENV CHROMEDRIVER_VERSION 114.0.5735.90
 ENV DATABASE_LIBRARY_VERSION 1.4.3
 ENV DATADRIVER_VERSION 1.10.0
 ENV DATETIMETZ_VERSION 1.0.6
 ENV MICROSOFT_EDGE_VERSION 121.0.2277.83
 ENV FAKER_VERSION 5.0.0
-ENV FIREFOX_VERSION 117.0
 ENV FTP_LIBRARY_VERSION 1.9
 ENV GECKO_DRIVER_VERSION v0.34.0
 ENV IMAP_LIBRARY_VERSION 0.4.6
@@ -70,7 +70,6 @@ RUN apt-get update && \
     libnss3 \
     libu2f-udev \
     libvulkan1 \
-    firefox \
     gcc \
     g++ \
     npm \
@@ -90,6 +89,14 @@ RUN apt-get update && \
 RUN wget "https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_$GOOGLE_CHROME_VERSION-1_amd64.deb" \
     && apt install -y ./"google-chrome-stable_$GOOGLE_CHROME_VERSION-1_amd64.deb" \
     && rm "google-chrome-stable_$GOOGLE_CHROME_VERSION-1_amd64.deb"
+
+RUN wget "https://launchpad.net/~ubuntu-mozilla-security/+archive/ubuntu/ppa/+build/27033836/+files/firefox_$FIREFOX_VERSION.1_amd64.deb" \
+    wget "https://launchpad.net/~ubuntu-mozilla-security/+archive/ubuntu/ppa/+build/27033836/+files/firefox-geckodriver_$FIREFOX_VERSION.1_amd64.deb" \
+    && apt install -y ./"firefox_$FIREFOX_VERSION.1_amd64.deb" \
+    && apt install -y ./"firefox-geckodriver_$FIREFOX_VERSION.1_amd64.deb" \
+    && rm "firefox_$FIREFOX_VERSION.1_amd64.deb" \
+    && rm "firefox-geckodriver_$FIREFOX_VERSION.1_amd64.deb"
+
 
 # FIXME: below is a workaround, as the path is ignored
 RUN mv /usr/bin/google-chrome /usr/bin/google-chrome-original \
@@ -127,17 +134,6 @@ RUN pip3 install \
 
 # Playwright deps
 RUN npx playwright install-deps
-
-# Gecko drivers
-RUN apt-get install -y \
-    wget \
-
-  # Download Gecko drivers directly from the GitHub repository
-  && wget -q "https://github.com/mozilla/geckodriver/releases/download/$GECKO_DRIVER_VERSION/geckodriver-$GECKO_DRIVER_VERSION-linux64.tar.gz" \
-  && tar xzf geckodriver-$GECKO_DRIVER_VERSION-linux64.tar.gz \
-  && mkdir -p /opt/robotframework/drivers/ \
-  && mv geckodriver /opt/robotframework/drivers/geckodriver \
-  && rm geckodriver-$GECKO_DRIVER_VERSION-linux64.tar.gz
 
 # Install Microsoft Edge & webdriver
 RUN wget -q "https://packages.microsoft.com/keys/microsoft.asc" -O- | apt-key add - && \
