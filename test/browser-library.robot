@@ -8,6 +8,7 @@ ${BROWSER}		%{BROWSER}
 
 *** Test Cases ***
 Visit Bing
+    Set Browser Timeout  20 seconds
 	IF	"${BROWSER}" == 'chrome'
 		New Browser		chromium
 	ELSE
@@ -17,6 +18,7 @@ Visit Bing
 	Take Screenshot
 
 Visit Google
+    Set Browser Timeout  20 seconds
 	IF	"${BROWSER}" == 'chrome'
 		New Browser		chromium
 	ELSE
@@ -26,6 +28,7 @@ Visit Google
 	Take Screenshot
 
 Visit Yahoo
+    Set Browser Timeout  20 seconds
 	IF	"${BROWSER}" == 'chrome'
 		New Browser		chromium
 	ELSE
