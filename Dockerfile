@@ -32,7 +32,7 @@ ENV ROBOT_GID 1000
 ENV AWS_CLI_VERSION 1.29.40
 ENV AXE_SELENIUM_LIBRARY_VERSION 2.1.6
 ENV BROWSER_LIBRARY_VERSION 18.0.0
-ENV GOOGLE_CHROME_VERSION 110.0.5481.77
+ENV GOOGLE_CHROME_VERSION 114.0.5735.90
 ENV FIREFOX_VERSION 120.0.1+build1-0ubuntu0.20.04
 ENV DATABASE_LIBRARY_VERSION 1.4.3
 ENV DATADRIVER_VERSION 1.10.0
@@ -114,8 +114,8 @@ RUN mv /usr/bin/google-chrome /usr/bin/google-chrome-original \
 # Install ChromeDriver
 RUN wget -q "https://chromedriver.storage.googleapis.com/${GOOGLE_CHROME_VERSION}/chromedriver_linux64.zip" && \
     unzip chromedriver_linux64.zip && \
-    mv chromedriver /usr/local/bin/chromedriver && \
-    chmod +x /usr/local/bin/chromedriver && \
+    mv chromedriver /usr/bin/chromedriver && \
+    chmod +x /usr/bin/chromedriver && \
     rm chromedriver_linux64.zip
 
 # Install Robot Framework and associated libraries
