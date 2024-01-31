@@ -32,7 +32,8 @@ ENV ROBOT_GID 1000
 ENV AWS_CLI_VERSION 1.29.40
 ENV AXE_SELENIUM_LIBRARY_VERSION 2.1.6
 ENV BROWSER_LIBRARY_VERSION 18.0.0
-ENV CHROMIUM_VERSION 117.0
+ENV GOOGLE_CHROME_VERSION 114.0.5735.198
+ENV CHROMEDRIVER_VERSION 114.0.5735.90
 ENV DATABASE_LIBRARY_VERSION 1.4.3
 ENV DATADRIVER_VERSION 1.10.0
 ENV DATETIMETZ_VERSION 1.0.6
@@ -51,6 +52,8 @@ ENV XVFB_VERSION 1.20
 
 # By default, no reports are uploaded to AWS S3
 ENV AWS_UPLOAD_TO_S3 false
+
+ENV DISPLAY :0
 
 # Prepare binaries to be executed
 COPY bin/chromedriver.sh /opt/robotframework/bin/chromedriver
@@ -84,17 +87,16 @@ RUN apt-get update && \
     npm install -g n && n lts && \
     rm -rf /var/lib/apt/lists/*
   
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-    && apt install -y ./google-chrome-stable_current_amd64.deb \
-    && rm google-chrome-stable_current_amd64.deb
+RUN wget "https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_$GOOGLE_CHROME_VERSION-1_amd64.deb" \
+    && apt install -y ./"google-chrome-stable_$GOOGLE_CHROME_VERSION-1_amd64.deb" \
+    && rm "google-chrome-stable_$GOOGLE_CHROME_VERSION-1_amd64.deb"
 
 # FIXME: below is a workaround, as the path is ignored
 RUN mv /usr/bin/google-chrome /usr/bin/google-chrome-original \
   && ln -sfv /opt/robotframework/bin/google-chrome /usr/bin/google-chrome
 
 # Install ChromeDriver
-RUN CHROMEDRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE) && \
-    wget -q "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" && \
+RUN wget -q "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" && \
     unzip chromedriver_linux64.zip && \
     mv chromedriver /usr/local/bin/chromedriver && \
     chmod +x /usr/local/bin/chromedriver && \
