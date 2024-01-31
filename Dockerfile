@@ -90,12 +90,12 @@ RUN wget "https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stabl
     && apt install -y ./"google-chrome-stable_$GOOGLE_CHROME_VERSION-1_amd64.deb" \
     && rm "google-chrome-stable_$GOOGLE_CHROME_VERSION-1_amd64.deb"
 
-RUN wget "https://launchpad.net/~ubuntu-mozilla-security/+archive/ubuntu/ppa/+build/27033836/+files/firefox_$FIREFOX_VERSION.1_amd64.deb" \
-    wget "https://launchpad.net/~ubuntu-mozilla-security/+archive/ubuntu/ppa/+build/27033836/+files/firefox-geckodriver_$FIREFOX_VERSION.1_amd64.deb" \
-    && apt install -y ./"firefox_$FIREFOX_VERSION.1_amd64.deb" \
-    && apt install -y ./"firefox-geckodriver_$FIREFOX_VERSION.1_amd64.deb" \
-    && rm "firefox_$FIREFOX_VERSION.1_amd64.deb" \
-    && rm "firefox-geckodriver_$FIREFOX_VERSION.1_amd64.deb"
+RUN wget "https://launchpad.net/~ubuntu-mozilla-security/+archive/ubuntu/ppa/+build/27033836/+files/firefox_${FIREFOX_VERSION}.1_amd64.deb" \
+    wget "https://launchpad.net/~ubuntu-mozilla-security/+archive/ubuntu/ppa/+build/27033836/+files/firefox-geckodriver_${FIREFOX_VERSION}.1_amd64.deb" \
+    && apt install -y ./"firefox_${FIREFOX_VERSION}.1_amd64.deb" \
+    && apt install -y ./"firefox-geckodriver_${FIREFOX_VERSION}.1_amd64.deb" \
+    && rm "firefox_${FIREFOX_VERSION}.1_amd64.deb" \
+    && rm "firefox-geckodriver_${FIREFOX_VERSION}.1_amd64.deb"
 
 
 # FIXME: below is a workaround, as the path is ignored
