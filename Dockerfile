@@ -183,5 +183,7 @@ USER ${ROBOT_UID}:${ROBOT_GID}
 # A dedicated work folder to allow for the creation of temporary files
 WORKDIR ${ROBOT_WORK_DIR}
 
+RUN chmod +x run-tests-in-virtual-screen.sh
+
 # Execute all robot tests
 CMD ["run-tests-in-virtual-screen.sh"]
