@@ -54,10 +54,10 @@ ENV AWS_UPLOAD_TO_S3 false
 
 ENV DISPLAY :0
 
-RUN chmod +x bin/run-tests-in-virtual-screen.sh
-
 # Prepare binaries to be executed
 COPY bin/run-tests-in-virtual-screen.sh /opt/robotframework/bin/
+
+RUN +x /opt/robotframework/bin/run-tests-in-virtual-screen.sh
 
 # Disable ipv6
 RUN sysctl -w net.ipv6.conf.all.disable_ipv6=1 \
