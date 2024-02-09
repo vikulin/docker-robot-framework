@@ -33,14 +33,14 @@ ENV AWS_CLI_VERSION 1.32.31
 ENV AXE_SELENIUM_LIBRARY_VERSION 2.1.6
 ENV BROWSER_LIBRARY_VERSION 18.0.0
 ENV GOOGLE_CHROME_VERSION 121.0.6167.85
-ENV FIREFOX_VERSION 120.0.1+build1-0ubuntu0.20.04
+ENV FIREFOX_VERSION 122.0.1+build1-0ubuntu0.20.04.1
+ENV GECKO_DRIVER_VERSION v0.34.0
 ENV DATABASE_LIBRARY_VERSION 1.4.3
 ENV DATADRIVER_VERSION 1.10.0
 ENV DATETIMETZ_VERSION 1.0.6
 ENV MICROSOFT_EDGE_VERSION 121.0.2277.83
 ENV FAKER_VERSION 5.0.0
 ENV FTP_LIBRARY_VERSION 1.9
-ENV GECKO_DRIVER_VERSION v0.34.0
 ENV IMAP_LIBRARY_VERSION 0.4.6
 ENV PABOT_VERSION 2.18.0
 ENV REQUESTS_VERSION 0.9.5
@@ -48,6 +48,7 @@ ENV ROBOT_FRAMEWORK_VERSION 7.0
 ENV SELENIUM_LIBRARY_VERSION 6.2.0
 ENV SSH_LIBRARY_VERSION 3.8.0
 ENV XVFB_VERSION 1.20
+ENV AUTORECORDER_VERSION 0.1.4
 
 # By default, no reports are uploaded to AWS S3
 ENV AWS_UPLOAD_TO_S3 false
@@ -55,7 +56,7 @@ ENV AWS_UPLOAD_TO_S3 false
 ENV DISPLAY :0
 
 # Prepare binaries to be executed
-COPY bin/run-tests-in-virtual-screen.sh /opt/robotframework/bin/
+COPY ci/docker/bin/run-tests-in-virtual-screen.sh /opt/robotframework/bin/
 
 RUN chmod +x /opt/robotframework/bin/run-tests-in-virtual-screen.sh
 
@@ -94,7 +95,12 @@ RUN apt-get update && \
     dirmngr \
     wget \
     unzip \
-    curl && \
+    curl \
+    # AutoRecorder deps
+    python3-gi \
+    gobject-introspection \
+    python3-gi-cairo \
+    gir1.2-gtk-3.0 && \
     # Install latest NodeJS
     npm install -g n && n lts && \
     rm -rf /var/lib/apt/lists/*
@@ -103,12 +109,14 @@ RUN wget "https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stabl
     && apt install -y ./"google-chrome-stable_${GOOGLE_CHROME_VERSION}-1_amd64.deb" \
     && rm "google-chrome-stable_${GOOGLE_CHROME_VERSION}-1_amd64.deb"
 
-RUN wget "https://launchpad.net/~ubuntu-mozilla-security/+archive/ubuntu/ppa/+build/27033836/+files/firefox_${FIREFOX_VERSION}.1_amd64.deb" \
-    && wget "https://launchpad.net/~ubuntu-mozilla-security/+archive/ubuntu/ppa/+build/27033836/+files/firefox-geckodriver_${FIREFOX_VERSION}.1_amd64.deb" \
-    && apt install -y ./"firefox_${FIREFOX_VERSION}.1_amd64.deb" \
-    && apt install -y ./"firefox-geckodriver_${FIREFOX_VERSION}.1_amd64.deb" \
-    && rm "firefox_${FIREFOX_VERSION}.1_amd64.deb" \
-    && rm "firefox-geckodriver_${FIREFOX_VERSION}.1_amd64.deb"
+RUN wget "http://security.ubuntu.com/ubuntu/pool/main/f/firefox/firefox_${FIREFOX_VERSION}_amd64.deb" \
+    && wget "https://github.com/mozilla/geckodriver/releases/download/v0.34.0/geckodriver-${GECKO_DRIVER_VERSION}-linux64.tar.gz" \
+    && apt install -y ./"firefox_${FIREFOX_VERSION}_amd64.deb" \
+    && tar xzf geckodriver-${GECKO_DRIVER_VERSION}-linux64.tar.gz \
+    && mkdir -p /opt/robotframework/drivers/ \
+    && mv geckodriver /opt/robotframework/drivers/geckodriver \
+    && rm "firefox_${FIREFOX_VERSION}_amd64.deb" \
+    && rm "geckodriver-${GECKO_DRIVER_VERSION}-linux64.tar.gz"
 
 # Install ChromeDriver
 RUN wget -q "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${GOOGLE_CHROME_VERSION}/linux64/chromedriver-linux64.zip" && \
@@ -133,6 +141,7 @@ RUN pip3 install \
   robotframework-requests==$REQUESTS_VERSION \
   robotframework-seleniumlibrary==$SELENIUM_LIBRARY_VERSION \
   robotframework-sshlibrary==$SSH_LIBRARY_VERSION \
+  robotframework-autorecorder==$AUTORECORDER_VERSION \
   axe-selenium-python==$AXE_SELENIUM_LIBRARY_VERSION \
   # Install awscli to be able to upload test reports to AWS S3
   awscli==$AWS_CLI_VERSION
