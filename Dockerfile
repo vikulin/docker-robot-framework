@@ -56,7 +56,7 @@ ENV AWS_UPLOAD_TO_S3 false
 ENV DISPLAY :0
 
 # Prepare binaries to be executed
-COPY ci/docker/bin/run-tests-in-virtual-screen.sh /opt/robotframework/bin/
+COPY bin/run-tests-in-virtual-screen.sh /opt/robotframework/bin/
 
 RUN chmod +x /opt/robotframework/bin/run-tests-in-virtual-screen.sh
 
