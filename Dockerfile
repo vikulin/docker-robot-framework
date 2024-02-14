@@ -49,6 +49,7 @@ ENV SELENIUM_LIBRARY_VERSION 6.2.0
 ENV SSH_LIBRARY_VERSION 3.8.0
 ENV XVFB_VERSION 1.20
 ENV AUTORECORDER_VERSION 0.1.4
+ENV NODEJS_VERSION 20.11.0
 
 # By default, no reports are uploaded to AWS S3
 ENV AWS_UPLOAD_TO_S3 false
@@ -86,8 +87,6 @@ RUN apt-get update && \
     #FF deps
     gcc \
     g++ \
-    npm \
-    nodejs \
     python3-pip \
     python3-yaml \
     tzdata \
@@ -101,9 +100,17 @@ RUN apt-get update && \
     gobject-introspection \
     python3-gi-cairo \
     gir1.2-gtk-3.0 && \
-    # Install latest NodeJS
-    npm install -g n && n lts && \
     rm -rf /var/lib/apt/lists/*
+
+# Install nodejs
+RUN wget "https://nodejs.org/dist/v${NODEJS_VERSION}/node-v${NODEJS_VERSION}-linux-x64.tar.xz" \
+    && mkdir -p /usr/local/lib/nodejs \
+    && tar -xJvf "node-v${NODEJS_VERSION}-linux-x64.tar.xz -C /usr/local/lib/nodejs" \
+    && export PATH=/usr/local/lib/nodejs/node-${NODEJS_VERSION}/bin:$PATH \
+    && echo "export PATH=/usr/local/lib/nodejs/node-${NODEJS_VERSION}/bin:$PATH" >> ~/.profile
+
+# Install npm
+RUN curl -qL https://www.npmjs.com/install.sh | sh
   
 RUN wget "https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${GOOGLE_CHROME_VERSION}-1_amd64.deb" \
     && apt install -y ./"google-chrome-stable_${GOOGLE_CHROME_VERSION}-1_amd64.deb" \
