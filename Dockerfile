@@ -33,7 +33,7 @@ ENV AWS_CLI_VERSION 1.32.31
 ENV AXE_SELENIUM_LIBRARY_VERSION 2.1.6
 ENV BROWSER_LIBRARY_VERSION 18.0.0
 ENV GOOGLE_CHROME_VERSION 121.0.6167.85
-ENV FIREFOX_VERSION 1snap1-0ubuntu2
+ENV FIREFOX_VERSION 122.0.1+build1-0ubuntu0.20.04.1
 ENV GECKO_DRIVER_VERSION v0.34.0
 ENV DATABASE_LIBRARY_VERSION 1.4.3
 ENV DATADRIVER_VERSION 1.10.0
@@ -120,10 +120,10 @@ RUN wget "https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stabl
     && apt install -y ./"google-chrome-stable_${GOOGLE_CHROME_VERSION}-1_amd64.deb" \
     && rm "google-chrome-stable_${GOOGLE_CHROME_VERSION}-1_amd64.deb"
 
-RUN wget "http://launchpadlibrarian.net/593501040/firefox_${FIREFOX_VERSION}_amd64.deb" \
+RUN wget "http://security.ubuntu.com/ubuntu/pool/main/f/firefox/firefox_${FIREFOX_VERSION}_amd64.deb" \
     && wget "https://github.com/mozilla/geckodriver/releases/download/v0.34.0/geckodriver-${GECKO_DRIVER_VERSION}-linux64.tar.gz" \
     && apt install -y ./"firefox_${FIREFOX_VERSION}_amd64.deb" \
-    && tar xzf "geckodriver-${GECKO_DRIVER_VERSION}-linux64.tar.gz" \
+    && tar xzf geckodriver-${GECKO_DRIVER_VERSION}-linux64.tar.gz \
     && mkdir -p /opt/robotframework/drivers/ \
     && mv geckodriver /opt/robotframework/drivers/geckodriver \
     && rm "firefox_${FIREFOX_VERSION}_amd64.deb" \
