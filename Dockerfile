@@ -56,6 +56,10 @@ ENV AWS_UPLOAD_TO_S3 false
 
 ENV DISPLAY :0
 
+ENV PATH="$PATH:/usr/local/lib/nodejs/node-v${NODEJS_VERSION}-linux-x64/bin:$PATH"
+
+RUN echo $PATH
+
 # Prepare binaries to be executed
 COPY bin/run-tests-in-virtual-screen.sh /opt/robotframework/bin/
 
@@ -105,9 +109,7 @@ RUN apt-get update && \
 # Install nodejs
 RUN wget "https://nodejs.org/dist/v${NODEJS_VERSION}/node-v${NODEJS_VERSION}-linux-x64.tar.xz" \
     && mkdir -p /usr/local/lib/nodejs \
-    && tar -xJvf "node-v${NODEJS_VERSION}-linux-x64.tar.xz" -C /usr/local/lib/nodejs \
-    && export PATH=/usr/local/lib/nodejs/node-v${NODEJS_VERSION}-linux-x64/bin:$PATH \
-    && echo "export PATH=/usr/local/lib/nodejs/node-v${NODEJS_VERSION}-linux-x64/bin:$PATH" >> ~/.profile
+    && tar -xJvf "node-v${NODEJS_VERSION}-linux-x64.tar.xz" -C /usr/local/lib/nodejs
 
 # Install npm
 RUN curl -qL https://www.npmjs.com/install.sh | sh
