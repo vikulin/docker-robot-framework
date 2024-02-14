@@ -105,7 +105,7 @@ RUN apt-get update && \
 # Install nodejs
 RUN wget "https://nodejs.org/dist/v${NODEJS_VERSION}/node-v${NODEJS_VERSION}-linux-x64.tar.xz" \
     && mkdir -p /usr/local/lib/nodejs \
-    && tar -xJvf "node-v${NODEJS_VERSION}-linux-x64.tar.xz -C /usr/local/lib/nodejs" \
+    && tar -xJvf "node-v${NODEJS_VERSION}-linux-x64.tar.xz" -C /usr/local/lib/nodejs \
     && export PATH=/usr/local/lib/nodejs/node-${NODEJS_VERSION}/bin:$PATH \
     && echo "export PATH=/usr/local/lib/nodejs/node-${NODEJS_VERSION}/bin:$PATH" >> ~/.profile
 
