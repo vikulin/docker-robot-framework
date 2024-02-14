@@ -72,7 +72,6 @@ RUN sysctl -w net.ipv6.conf.all.disable_ipv6=1 \
 # Install system dependencies
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    snapd \
     # Chrome deps
     fonts-liberation \
     libasound2 \
