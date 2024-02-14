@@ -71,6 +71,7 @@ RUN sysctl -w net.ipv6.conf.all.disable_ipv6=1 \
 
 # Install system dependencies
 RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
     # Chrome deps
     fonts-liberation \
