@@ -103,7 +103,8 @@ RUN apt-get update && \
     python3-gi \
     gobject-introspection \
     python3-gi-cairo \
-    gir1.2-gtk-3.0 && \
+    gir1.2-gtk-3.0 \
+    apt-transport-https && \
     rm -rf /var/lib/apt/lists/*
 
 # Install nodejs
