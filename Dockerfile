@@ -135,6 +135,8 @@ RUN wget -q "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${GOOGL
     chmod +x /usr/bin/chromedriver && \
     rm chromedriver-linux64.zip
 
+RUN pip3 install setuptools mako wheel --upgrade
+
 # Install Robot Framework and associated libraries
 RUN pip3 install \
   --no-cache-dir \
@@ -162,11 +164,11 @@ RUN npx playwright install-deps
 # Install Microsoft Edge & webdriver
 RUN wget -q "https://packages.microsoft.com/keys/microsoft.asc" -O- | apt-key add - && \
     echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" | tee /etc/apt/sources.list.d/microsoft-edge.list \
-  && apt-get update && \
+    && apt-get update && \
     apt-get install -y \
     microsoft-edge-stable=${MICROSOFT_EDGE_VERSION}-1 \
     wget \
-zip && \
+    zip && \
     wget -q "https://msedgedriver.azureedge.net/${MICROSOFT_EDGE_VERSION}/edgedriver_linux64.zip" && \
     unzip edgedriver_linux64.zip -d edge && \
     mkdir -p /opt/robotframework/drivers && \
